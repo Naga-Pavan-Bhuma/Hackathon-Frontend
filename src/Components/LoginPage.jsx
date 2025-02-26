@@ -1,25 +1,30 @@
 import React, { useState } from "react";
-import { Mail, Lock, CheckCircle, Badge } from "lucide-react";
+import { Mail, Lock, User, CheckCircle } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const LoginPage = () => {
-  const [role, setRole] = useState("student"); // Default role is student
-  const [identifier, setIdentifier] = useState("");
+  const [role, setRole] = useState("student");
+  const [email, setEmail] = useState("");
+  const [employeeId, setEmployeeId] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const result = await axios.post(
-        `${API_URL}/login`,
-        { identifier, password, role },
-        { withCredentials: true }
-      );
-      alert("Login success");
+      const payload =
+        role === "student"
+          ? { email, password }
+          : { employeeId, password };
+
+      const result = await axios.post(`${API_URL}/login`, payload, {
+        withCredentials: true,
+      });
+
+      alert("Login successful");
     } catch (err) {
       console.error(err);
     }
@@ -30,10 +35,8 @@ const LoginPage = () => {
       className="relative min-h-screen bg-cover bg-center"
       style={{ backgroundImage: 'url("hero-bg.jpg")' }}
     >
-      {/* Background Overlay */}
       <div className="absolute inset-0 bg-black opacity-50"></div>
 
-      {/* Main Content */}
       <div className="min-h-screen flex flex-col lg:flex-row items-center justify-around relative z-20 p-4 gap-8">
         {/* Responsive Image */}
         <img
@@ -44,48 +47,62 @@ const LoginPage = () => {
 
         {/* Login Form */}
         <div className="w-full max-w-sm p-8 rounded-2xl text-center border border-white/50 backdrop-blur-lg shadow-2xl">
-          <h2 className="text-3xl font-ovo text-white mb-3">
-            Welcome Back...
-          </h2>
-          <p className="pb-3 text-gray-400">
-            Please enter your {role === "faculty" ? "Employee ID" : "email"} and password
-          </p>
-
-          {/* Role Selection Dropdown */}
-          <div className="mb-4">
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full bg-transparent border border-gray-400 text-white py-2 px-3 rounded-lg outline-none focus:border-white transition-all"
-            >
-              <option value="student" className="text-black">Login as Student</option>
-              <option value="faculty" className="text-black">Login as Faculty</option>
-            </select>
-          </div>
+          <h2 className="text-3xl font-ovo text-white mb-3">Welcome Back...</h2>
+          <p className="pb-3 text-gray-400">Please enter your credentials</p>
 
           <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
-            {/* Identifier Input (Email or Employee ID) */}
-            <div className="relative">
-              {role === "faculty" ? (
-                <Badge
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"
-                  size={20}
-                />
-              ) : (
+            {/* Role Selection Dropdown */}
+            <div className="relative w-full mb-4">
+              <label className="block text-gray-300 text-sm mb-2 text-left">
+                Select Role
+              </label>
+              <div className="relative">
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="w-full bg-black/30 backdrop-blur-lg border border-gray-400 text-white py-3 px-4 rounded-lg outline-none focus:border-blue-400 transition-all appearance-none"
+                >
+                  <option value="student" className="text-black">🎓 Login as Student</option>
+                  <option value="faculty" className="text-black">👨‍🏫 Login as Faculty</option>
+                </select>
+                <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                  ▼
+                </span>
+              </div>
+            </div>
+
+            {/* Conditional Input Field */}
+            {role === "student" ? (
+              <div className="relative">
                 <Mail
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"
                   size={20}
                 />
-              )}
-              <input
-                type="text"
-                value={identifier}
-                onChange={(e) => setIdentifier(e.target.value)}
-                required
-                placeholder={role === "faculty" ? "Enter your Employee ID" : "Enter your email"}
-                className="w-full bg-transparent pl-10 pr-4 py-3 rounded-lg border border-gray-400 text-white placeholder-gray-400 outline-none focus:border-white transition-all"
-              />
-            </div>
+                <input
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="Enter your email"
+                  className="w-full bg-transparent pl-10 pr-4 py-3 rounded-lg border border-gray-400 text-white placeholder-gray-400 outline-none focus:border-white transition-all"
+                />
+              </div>
+            ) : (
+              <div className="relative">
+                <User
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"
+                  size={20}
+                />
+                <input
+                  type="text"
+                  value={employeeId}
+                  onChange={(e) => setEmployeeId(e.target.value)}
+                  required
+                  placeholder="Enter your Employee ID"
+                  className="w-full bg-transparent pl-10 pr-4 py-3 rounded-lg border border-gray-400 text-white placeholder-gray-400 outline-none focus:border-white transition-all"
+                />
+              </div>
+            )}
 
             {/* Password Input */}
             <div className="relative">
@@ -129,7 +146,7 @@ const LoginPage = () => {
               Log In
             </button>
 
-            {/* Continue with Google Button (Hidden for Faculty) */}
+            {/* Continue with Google Button - Only for Students */}
             {role === "student" && (
               <button
                 type="button"

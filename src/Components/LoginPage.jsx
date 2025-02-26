@@ -4,22 +4,30 @@ import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import LoginNavBar from "./LoginNavBar";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const LoginPage = () => {
   const [role, setRole] = useState("student");
   const [email, setEmail] = useState("");
-  const [employeeId, setEmployeeId] = useState("");
+  const [facultyId, setfacultyId] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const result =
         role === "student"
-          ? await axios.post(
+          ? email.includes("@admin.in")? await axios.post(
+              `${API_URL}/admin/login`,
+              { email, password },
+              {
+                withCredentials: true,
+              }
+            ):await axios.post(
               `${API_URL}/student/login`,
               { email, password },
               {
@@ -28,7 +36,7 @@ const LoginPage = () => {
             )
           : await axios.post(
               `${API_URL}/faculty/login`,
-              { employeeId, password },
+              { facultyId, password },
               {
                 withCredentials: true,
               }
@@ -124,8 +132,8 @@ const LoginPage = () => {
                 />
                 <input
                   type="text"
-                  value={employeeId}
-                  onChange={(e) => setEmployeeId(e.target.value)}
+                  value={facultyId}
+                  onChange={(e) => setfacultyId(e.target.value)}
                   required
                   placeholder="Enter your Employee ID"
                   className="w-full bg-transparent pl-10 pr-4 py-3 rounded-lg border border-gray-400 text-white placeholder-gray-400 outline-none focus:border-white transition-all"

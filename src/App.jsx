@@ -5,6 +5,7 @@ import NavBar from "./Components/NavBar";
 import LoginNavBar from "./Components/LoginNavBar";
 import Body from "./Components/Body";
 import Home from "./Components/Home";
+import Clubs from "./Components/Clubs";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} /> {/* index for default route */}
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignupPage />} />
+          <Route path="clubs" element={<Clubs />} />
         </Route>
       </Routes>
     </Router>

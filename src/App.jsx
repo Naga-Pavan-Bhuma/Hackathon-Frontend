@@ -33,10 +33,16 @@ function App() {
 
         <Route path="/faculty" element={<MainLayout />}>
           <Route index element={<Faculty />} />
+          <Route path="discussions" element={<Discussions />} />
+          <Route path="clubs" element={<Clubs />} />
+          <Route path="career" element={<Career />} />
           
         </Route>
         <Route path="/admin" element={<MainLayout />}>
           <Route index element={<Admin />} />
+          <Route path="discussions" element={<Discussions />} />
+          <Route path="clubs" element={<Clubs />} />
+          <Route path="career" element={<Career />} />
           
         </Route>
       </Routes>

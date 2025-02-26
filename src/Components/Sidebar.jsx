@@ -1,7 +1,14 @@
 import { Home, Users, MessageCircle, Briefcase, Calendar, LogOut } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("authToken"); // Remove stored token
+    navigate("/login"); // Redirect to login page
+  };
+
   return (
     <aside className="w-64 h-screen bg-gray-100 border-r border-gray-300 p-5 flex flex-col justify-between shadow-md">
       {/* Logo Section */}
@@ -15,12 +22,15 @@ const Sidebar = () => {
         <NavItem to="discussions" icon={<MessageCircle size={22} />} label="Discussions" />
         <NavItem to="clubs" icon={<Users size={22} />} label="Clubs" />
         <NavItem to="career" icon={<Briefcase size={22} />} label="Careers" />
-        <NavItem to="events" icon={<Calendar size={22} />} label="Events" />
+        <NavItem to="examschedule" icon={<Calendar size={22} />} label="Exam Schedule" />
       </nav>
 
       {/* Logout Button */}
       <div className="mt-auto">
-        <button className="flex items-center gap-2 text-gray-700 hover:text-red-500 transition duration-200">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 text-gray-700 hover:text-red-500 transition duration-200"
+        >
           <LogOut size={22} />
           <span className="text-lg font-medium">Logout</span>
         </button>

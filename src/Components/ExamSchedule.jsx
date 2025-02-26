@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "./Card";
 import { Select, SelectItem } from "./Select";
-import LoginNavBar from "./LoginNavBar";
 const examData = {    CSE: {
       "1st Year": {
         "Mid-1": [
@@ -142,8 +141,6 @@ export default function ExamSchedule() {
     <div className="flex bg-cover bg-center flex-col bg-ima items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-pink-100 text-gray-900 p-6" 
     style={{ backgroundImage: "url('../../public/examschedulebg.jpg')" }}>
 
-
-        <LoginNavBar/>
         <motion.h1
   className="text-4xl font-extrabold mb-6 text-transparent bg-clip-text 
              bg-gradient-to-r from-white to-gray-300 drop-shadow-lg"

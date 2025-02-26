@@ -11,6 +11,7 @@ import Career from "./Components/Career";
 import Default from "./Components/Default";
 import Faculty from "./Components/Faculty";
 import Admin from "./Components/Admin";
+import ExamSchedule from "./Components/ExamSchedule";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignupPage />} />
+          <Route path="examschedule" element={<ExamSchedule />} />
         </Route>
 
         {/* Protected Routes (After Login - Student Dashboard) */}
@@ -29,6 +31,7 @@ function App() {
           <Route path="discussions" element={<Discussions />} />
           <Route path="clubs" element={<Clubs />} />
           <Route path="career" element={<Career />} />
+          <Route path="examschedule" element={<ExamSchedule />} />
         </Route>
 
         <Route path="/faculty" element={<MainLayout />}>
@@ -36,14 +39,14 @@ function App() {
           <Route path="discussions" element={<Discussions />} />
           <Route path="clubs" element={<Clubs />} />
           <Route path="career" element={<Career />} />
-          
+          <Route path="examschedule" element={<ExamSchedule />} />
         </Route>
         <Route path="/admin" element={<MainLayout />}>
           <Route index element={<Admin />} />
           <Route path="discussions" element={<Discussions />} />
           <Route path="clubs" element={<Clubs />} />
           <Route path="career" element={<Career />} />
-          
+          <Route path="examschedule" element={<ExamSchedule />} />
         </Route>
       </Routes>
     </Router>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Mail, Lock, User, Briefcase } from "lucide-react";
+import { Mail, Lock, User, Briefcase, Key } from "lucide-react";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
@@ -23,21 +23,47 @@ const SignupPage = () => {
     }
 
     try {
-      const payload =
+      const response =
         role === "Student"
-          ? { firstName, lastName, email, password, role }
-          : { employeeId, password, role };
-
-      const response = await axios.post(`${API_URL}/signup`, payload, {
-        withCredentials: true,
-      });
+          ? await axios.post(
+              `${API_URL}/signup`,
+              { firstName, lastName, email, password, role },
+              { withCredentials: true }
+            )
+          : await axios.post(
+              `${API_URL}/faculty/register`,
+              { employeeId, password, role },
+              { withCredentials: true }
+            );
 
       if (response.status === 200) {
-        alert("Verification email sent. Please check your inbox.");
-        setIsOtpSent(true);
+        if (role === "Student") {
+          alert("Verification email sent. Please check your inbox.");
+          setIsOtpSent(true);
+        } else {
+          navigate("/faculty");
+        }
       }
     } catch (error) {
       console.error("Error verifying email:", error);
+    }
+  };
+
+  const handleOtpVerification = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(`${API_URL}/verify-otp`, {
+        email,
+        otp,
+      });
+
+      if (response.status === 200) {
+        alert("OTP verified successfully! Account created.");
+        navigate("/student")
+      }
+    } catch (error) {
+      alert("Invalid OTP. Please try again.");
     }
   };
 
@@ -49,7 +75,7 @@ const SignupPage = () => {
       <div className="absolute inset-0 bg-black opacity-50"></div>
 
       <div className="min-h-screen flex flex-col lg:flex-row items-center justify-around relative z-20 p-4 gap-8">
-      <img
+        <img
           src="../../public/solar-wind.png"
           alt="Solar Wind"
           className="h-64 w-64 md:h-96 md:w-96 lg:h-[500px] lg:w-[500px] object-contain"
@@ -57,126 +83,144 @@ const SignupPage = () => {
         <div className="w-full max-w-sm p-8 rounded-2xl text-center border border-white/50 backdrop-blur-lg shadow-2xl">
           <h2 className="text-3xl font-ovo text-white mb-3">Sign Up</h2>
           <p className="pb-3 text-gray-400">
-            {isOtpSent ? "Enter the OTP sent to your email" : "Create a new account"}
+            {isOtpSent
+              ? "Enter the OTP sent to your email"
+              : "Create a new account"}
           </p>
 
-          <form onSubmit={handleEmailVerification} className="flex flex-col space-y-6">
-            {/* Role Selection - Styled Dropdown */}
-            <div className="relative">
-              <select
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="w-full bg-gray-800 text-white text-lg pl-4 pr-4 py-3 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
-              >
-                <option value="Student" className="text-black">Student</option>
-                <option value="Faculty" className="text-black">Faculty</option>
-              </select>
-            </div>
+          {/* Email Verification Form */}
+          {!isOtpSent ? (
+            <form
+              onSubmit={handleEmailVerification}
+              className="flex flex-col space-y-6"
+            >
+              {/* Role Selection */}
+              <div className="relative flex items-center gap-2">
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="w-full bg-transparent text-white text-lg pl-4 pr-4 py-3 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
+                >
+                  <option value="Student" className="text-black">
+                    Student
+                  </option>
+                  <option value="Faculty" className="text-black">
+                    Faculty
+                  </option>
+                </select>
+              </div>
 
-            {!isOtpSent && (
-              <>
-                {role === "Student" ? (
-                  <>
-                    {/* First Name & Last Name */}
-                    <div className="flex gap-4">
-                      <div className="relative w-1/2">
-                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
-                        <input
-                          type="text"
-                          value={firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
-                          required
-                          placeholder="First Name"
-                          className="w-full bg-gray-800 text-white pl-10 pr-4 py-3 rounded-lg border border-gray-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                        />
-                      </div>
-
-                      <div className="relative w-1/2">
-                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
-                        <input
-                          type="text"
-                          value={lastName}
-                          onChange={(e) => setLastName(e.target.value)}
-                          required
-                          placeholder="Last Name"
-                          className="w-full bg-gray-800 text-white pl-10 pr-4 py-3 rounded-lg border border-gray-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Email Input */}
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
+              {role === "Student" ? (
+                <>
+                  {/* First Name & Last Name */}
+                  <div className="flex gap-4">
+                    <div className="relative w-1/2">
+                      <User
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"
+                        size={20}
+                      />
                       <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type="text"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                         required
-                        placeholder="Email Address"
-                        className="w-full bg-gray-800 text-white pl-10 pr-4 py-3 rounded-lg border border-gray-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                        placeholder="First Name"
+                        className="w-full bg-transparent text-white pl-10 pr-4 py-3 rounded-lg border border-gray-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                       />
                     </div>
-                  </>
-                ) : (
-                  /* Employee ID Input (for Faculty) */
+
+                    <div className="relative w-1/2">
+                      <User
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"
+                        size={20}
+                      />
+                      <input
+                        type="text"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        required
+                        placeholder="Last Name"
+                        className="w-full bg-transparent text-white pl-10 pr-4 py-3 rounded-lg border border-gray-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email Input */}
                   <div className="relative">
-                    <Briefcase className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
+                    <Mail
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"
+                      size={20}
+                    />
                     <input
-                      type="text"
-                      value={employeeId}
-                      onChange={(e) => setEmployeeId(e.target.value)}
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       required
-                      placeholder="Employee ID"
-                      className="w-full bg-gray-800 text-white pl-10 pr-4 py-3 rounded-lg border border-gray-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                      placeholder="Email Address"
+                      className="w-full bg-transparent text-white pl-10 pr-4 py-3 rounded-lg border border-gray-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                     />
                   </div>
-                )}
-
-                {/* Password Input */}
+                </>
+              ) : (
+                /* Employee ID Input (for Faculty) */
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
+                  <Briefcase
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"
+                    size={20}
+                  />
                   <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    type="text"
+                    value={employeeId}
+                    onChange={(e) => setEmployeeId(e.target.value)}
                     required
-                    placeholder="Password"
-                    className="w-full bg-gray-800 text-white pl-10 pr-4 py-3 rounded-lg border border-gray-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                    placeholder="Employee ID"
+                    className="w-full bg-transparent text-white pl-10 pr-4 py-3 rounded-lg border border-gray-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                   />
                 </div>
+              )}
 
-                {/* Confirm Password Input */}
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
-                  <input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                    placeholder="Confirm Password"
-                    className="w-full bg-gray-800 text-white pl-10 pr-4 py-3 rounded-lg border border-gray-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                  />
-                </div>
-              </>
-            )}
+              {/* Password Inputs */}
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="Password"
+                  className="w-full bg-transparent text-white pl-10 pr-4 py-3 rounded-lg border border-gray-600 outline-none"
+                />
+              </div>
 
-            {/* Dynamic Button Text */}
-            <button
-              type="submit"
-              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 rounded-lg hover:from-purple-600 hover:to-blue-500 transition-all shadow-md"
-            >
-              {role === "Faculty" ? "Update Password" : "Verify Email"}
-            </button>
-            {/* Login Link */}
-            <div className="text-white text-sm">
-              <p>
-                Already have an account?{" "}
-                <a href="/login" className="underline hover:text-gray-300">
-                  Login
-                </a>
-              </p>
-            </div>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  placeholder="Confirm Password"
+                  className="w-full bg-transparent text-white pl-10 pr-4 py-3 rounded-lg border border-gray-600 outline-none"
+                />
+              </div>
+
+              <button type="submit" className="bg-blue-600 text-white py-3 rounded-lg">
+                {role === "Faculty" ? "Update Password" : "Verify Email"}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleOtpVerification} className="flex flex-col space-y-6">
+            <input
+              type="text"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              required
+              placeholder="Enter OTP"
+              className="w-full bg-transparent text-white pl-4 pr-4 py-3 rounded-lg border border-gray-400 outline-none focus:border-white transition-all"
+            />
+            <button type="submit" className="bg-blue-500 text-white py-2 rounded">Verify OTP</button>
           </form>
+          )}
         </div>
       </div>
     </div>

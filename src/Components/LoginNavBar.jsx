@@ -7,7 +7,7 @@ const LoginNavBar = () => {
       <div className="navbar">
         {/* Navbar Start */}
         <div className="navbar-start">
-          <a className="btn btn-ghost text-xl">CampusSphere</a>
+          <a className="btn btn-ghost text-xl">CampuSphere</a>
         </div>
 
         {/* Navbar Center (Hidden on Small Screens) */}

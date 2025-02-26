@@ -15,20 +15,35 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const payload =
+      const result =
         role === "student"
-          ? { email, password }
-          : { employeeId, password };
-
-      const result = await axios.post(`${API_URL}/login`, payload, {
-        withCredentials: true,
-      });
-
+          ? await axios.post(`${API_URL}/student/login`, { email, password }, {
+              withCredentials: true,
+            })
+          : await axios.post(`${API_URL}/faculty/login`, { employeeId, password }, {
+              withCredentials: true,
+            });
+  
       alert("Login successful");
+      if(role!="student"){
+        localStorage.setItem("role","faculty");
+        navigate("/faculty");
+      }
+      // Check if the email belongs to an admin
+      else if (email.includes("@admin.in")) {
+        // Store admin identifier in local storage
+        localStorage.setItem("role", "admin");
+        // Navigate to the admin page
+        navigate("/admin");
+      } else {
+        // Navigate to the student page
+        navigate("/student");
+      }
     } catch (err) {
       console.error(err);
     }
   };
+  
 
   return (
     <div

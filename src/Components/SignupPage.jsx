@@ -65,10 +65,7 @@ const SignupPage = () => {
         className="relative min-h-screen bg-cover bg-center"
         style={{ backgroundImage: 'url("hero-bg.jpg")' }}
       >
-        {/* Navbar Overlay */}
-        <div className="absolute top-0 left-0 w-full z-10">
-          <LoginNavBar />
-        </div>
+        
 
         {/* Background Overlay */}
         <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -205,7 +202,7 @@ const SignupPage = () => {
               <div className="text-white text-sm">
                 <p>
                   Already have an account?{" "}
-                  <a href="#" className="underline hover:text-gray-300">
+                  <a href="/login" className="underline hover:text-gray-300">
                     Log In
                   </a>
                 </p>

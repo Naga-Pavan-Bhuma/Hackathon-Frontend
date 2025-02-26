@@ -3,6 +3,7 @@ import { Mail, Lock, User, Briefcase, Key } from "lucide-react";
 import axios from "axios";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import LoginNavBar from "./LoginNavBar";
+import { useNavigate } from "react-router-dom";
 
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
@@ -11,12 +12,13 @@ const SignupPage = () => {
   const [role, setRole] = useState("Student");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [employeeId, setEmployeeId] = useState("");
+  const [facultyId, setfacultyId] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
+  const navigate = useNavigate();
 
   const handleEmailVerification = async (e) => {
     e.preventDefault();
@@ -26,6 +28,9 @@ const SignupPage = () => {
     }
 
     try {
+      
+      console.log(facultyId);
+      console.log(password)
       const response =
         role === "Student"
           ? await axios.post(
@@ -35,7 +40,7 @@ const SignupPage = () => {
             )
           : await axios.post(
               `${API_URL}/faculty/register`,
-              { employeeId, password, role },
+              { facultyId, password },
               { withCredentials: true }
             );
 
@@ -175,8 +180,8 @@ const SignupPage = () => {
                   />
                   <input
                     type="text"
-                    value={employeeId}
-                    onChange={(e) => setEmployeeId(e.target.value)}
+                    value={facultyId}
+                    onChange={(e) => setfacultyId(e.target.value)}
                     required
                     placeholder="Employee ID"
                     className="w-full bg-transparent text-white pl-10 pr-4 py-3 rounded-lg border border-gray-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all"

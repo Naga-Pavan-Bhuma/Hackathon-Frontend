@@ -1,6 +1,6 @@
 import React from "react";
 import Carousel from "./Carousel";
-import NavBar from "./NavBar";
+import NavBar from "./Navbar";
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 

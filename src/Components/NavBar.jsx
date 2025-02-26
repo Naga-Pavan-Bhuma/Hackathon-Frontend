@@ -1,40 +1,33 @@
-import React from "react";
-import { Link } from "react-router-dom";
-const NavBar = () => {
+import { Bell, MessageCircle, User } from "lucide-react";
+
+const Header = () => {
   return (
-    <div className="absolute top-0 left-0 w-full z-50 bg-transparent text-white px-4 py-3">
-      {/* Navbar Container */}
-      <div className="navbar">
-        {/* Navbar Start */}
-        <div className="navbar-start">
-          {/* <img src="../../public/CampuSphereLogo.png" className="h-32 w-44 pt-0"/> */}
-          <a className="btn btn-ghost text-xl">CampuSphere</a>
-        </div>
+    <header className="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center">
+      {/* Left Side - Brand Name */}
+      <h1 className="text-2xl font-bold tracking-wide">CampuSphere</h1>
 
-        {/* Navbar Center (Hidden on Small Screens) */}
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 space-x-4">
-            <li><a href="#">Student</a></li>
-            <li><a href="#">Coordinator</a></li>
-            <li><a href="#">Faculty</a></li>
-            <li><a href="#">Alumni</a></li>
-            <li><Link to="/examschedule">Exam Schedule</Link></li>
-          </ul>
-        </div>
+      {/* Right Side - Icons */}
+      <div className="flex items-center gap-6">
+        {/* Notification Icon */}
+        <button className="relative p-2 hover:bg-blue-500 rounded-lg">
+          <Bell size={24} />
+          <span className="absolute -top-1 -right-1 bg-red-500 text-xs text-white w-4 h-4 flex items-center justify-center rounded-full">
+            3
+          </span>
+        </button>
 
-        {/* Navbar End */}
-        <div className="navbar-end">
-          <a
-            className="btn text-white border-white shadow-lg transition-transform duration-300 ease-in-out rounded-lg px-6 py-2 
-            hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:scale-105"
-            href="/login"
-          >
-            Get Started
-          </a>
-        </div>
+        {/* Live Chat Icon */}
+        <button className="p-2 hover:bg-blue-500 rounded-lg">
+          <MessageCircle size={24} />
+        </button>
+
+        {/* Profile Icon */}
+        <button className="p-2 hover:bg-blue-500 rounded-lg">
+          <User size={24} />
+        </button>
       </div>
-    </div>
+    </header>
   );
 };
 
-export default NavBar;
+export default Header;

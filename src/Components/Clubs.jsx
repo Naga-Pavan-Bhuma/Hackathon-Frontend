@@ -1,15 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
-
 const clubsData = [
   {
-    name: "Tech Innovators",
+    name: "SRC",
     description: "Explore AI, blockchain, and latest tech trends.",
     members: "250+ Members",
     image: "https://source.unsplash.com/300x200/?technology,ai",
   },
   {
-    name: "Debate Society",
+    name: "Tech Innovators",
     description: "Engage in intellectual discussions and competitions.",
     members: "180+ Members",
     image: "https://source.unsplash.com/300x200/?debate,conference",

@@ -27,9 +27,9 @@ export default function LandingPage() {
 // 🎠 Carousel Section (No Effects, No Text)
 function CarouselSection() {
   const slides = [
-    "../../public/solar-wind.png",
-    "../../public/solar-wind.png",
-    "../../public/solar-wind.png"
+    "../../public/c1.png",
+    "../../public/c2.png",
+    "../../public/c3.png"
   ];
 
   return (

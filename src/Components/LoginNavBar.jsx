@@ -14,8 +14,8 @@ const LoginNavBar = () => {
         {/* Navbar Center (Hidden on Small Screens) */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 space-x-4">
+            <li><a href="/">Home</a></li>
             <li><a href="#">Student</a></li>
-            <li><a href="#">Coordinator</a></li>
             <li><a href="#">Faculty</a></li>
             <li><a href="#">Alumni</a></li>
             <li><a href="#">Admin</a></li>

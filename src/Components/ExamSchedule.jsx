@@ -3,8 +3,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent } from "./Card";
 import { Select, SelectItem } from "./Select";
 import LoginNavBar from "./LoginNavBar";
-const examData = {
-    CSE: {
+const examData = {    CSE: {
       "1st Year": {
         "Mid-1": [
           { subject: "Mathematics", date: "2025-03-10" },

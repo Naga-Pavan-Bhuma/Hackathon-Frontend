@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 const LoginNavBar = () => {
   return (
@@ -19,6 +20,7 @@ const LoginNavBar = () => {
             <li><a href="#">Faculty</a></li>
             <li><a href="#">Alumni</a></li>
             <li><a href="#">Admin</a></li>
+            <li><Link to="/examschedule">Exam Schedule</Link></li>
           </ul>
         </div>
 

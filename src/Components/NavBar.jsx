@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const NavBar = () => {
   return (
     <div className="absolute top-0 left-0 w-full z-50 bg-transparent text-white px-4 py-3">
@@ -18,7 +18,7 @@ const NavBar = () => {
             <li><a href="#">Coordinator</a></li>
             <li><a href="#">Faculty</a></li>
             <li><a href="#">Alumni</a></li>
-            <li><a href="#">Admin</a></li>
+            <li><Link to="/examschedule">Exam Schedule</Link></li>
           </ul>
         </div>
 

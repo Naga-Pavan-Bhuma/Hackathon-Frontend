@@ -7,6 +7,7 @@ import Body from "./Components/Body";
 import Home from "./Components/Home";
 import Clubs from "./Components/Clubs";
 import DiscussionPage from "./Components/DiscussionPage";
+import ExamSchedule from "./Components/ExamSchedule";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="signup" element={<SignupPage />} />
           <Route path="clubs" element={<Clubs />} />
           <Route path="/discussion" element={<DiscussionPage />} />
+          <Route path="/examschedule" element={<ExamSchedule />} />
         </Route>
       </Routes>
     </Router>

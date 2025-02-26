@@ -9,6 +9,8 @@ import MainLayout from "./Components/MainLayout";
 import Discussions from "./Components/Discussions";
 import Career from "./Components/Career";
 import Default from "./Components/Default";
+import Faculty from "./Components/Faculty";
+import Admin from "./Components/Admin";
 
 function App() {
   return (
@@ -27,6 +29,15 @@ function App() {
           <Route path="discussions" element={<Discussions />} />
           <Route path="clubs" element={<Clubs />} />
           <Route path="career" element={<Career />} />
+        </Route>
+
+        <Route path="/faculty" element={<MainLayout />}>
+          <Route index element={<Faculty />} />
+          
+        </Route>
+        <Route path="/admin" element={<MainLayout />}>
+          <Route index element={<Admin />} />
+          
         </Route>
       </Routes>
     </Router>

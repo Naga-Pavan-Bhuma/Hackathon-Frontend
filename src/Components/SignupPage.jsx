@@ -60,7 +60,9 @@ const SignupPage = () => {
 
   return (
     <>
+
       {/* Navbar Positioned at the Top */}
+      <LoginNavBar/>
       <div
         className="relative min-h-screen bg-cover bg-center"
         style={{ backgroundImage: 'url("hero-bg.jpg")' }}

@@ -7,6 +7,7 @@ const LoginNavBar = () => {
       <div className="navbar">
         {/* Navbar Start */}
         <div className="navbar-start">
+          {/* <img src="../../public/CampuSphereLogo.png" className="h-32 w-44 pt-0"/> */}
           <a className="btn btn-ghost text-xl">CampuSphere</a>
         </div>
 

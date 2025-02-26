@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Mail, Lock, User, Briefcase, Key } from "lucide-react";
 import axios from "axios";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import LoginNavBar from "./LoginNavBar";
+
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -60,7 +63,7 @@ const SignupPage = () => {
 
       if (response.status === 200) {
         alert("OTP verified successfully! Account created.");
-        navigate("/student")
+        navigate("/student");
       }
     } catch (error) {
       alert("Invalid OTP. Please try again.");
@@ -72,13 +75,15 @@ const SignupPage = () => {
       className="relative min-h-screen bg-cover bg-center"
       style={{ backgroundImage: 'url("hero-bg.jpg")' }}
     >
+       <LoginNavBar  />
       <div className="absolute inset-0 bg-black opacity-50"></div>
 
       <div className="min-h-screen flex flex-col lg:flex-row items-center justify-around relative z-20 p-4 gap-8">
-        <img
-          src="../../public/solar-wind.png"
-          alt="Solar Wind"
-          className="h-64 w-64 md:h-96 md:w-96 lg:h-[500px] lg:w-[500px] object-contain"
+        <DotLottieReact
+          src="https://lottie.host/f8300ede-4ba2-49c7-8232-b68fd8cddc45/oxLqOeKk2c.lottie"
+          loop
+          autoplay
+          style={{ width: "650px", height: "300px" }} // Adjust size as needed
         />
         <div className="w-full max-w-sm p-8 rounded-2xl text-center border border-white/50 backdrop-blur-lg shadow-2xl">
           <h2 className="text-3xl font-ovo text-white mb-3">Sign Up</h2>
@@ -181,7 +186,10 @@ const SignupPage = () => {
 
               {/* Password Inputs */}
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
+                <Lock
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"
+                  size={20}
+                />
                 <input
                   type="password"
                   value={password}
@@ -193,7 +201,10 @@ const SignupPage = () => {
               </div>
 
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
+                <Lock
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"
+                  size={20}
+                />
                 <input
                   type="password"
                   value={confirmPassword}
@@ -204,22 +215,33 @@ const SignupPage = () => {
                 />
               </div>
 
-              <button type="submit" className="bg-blue-600 text-white py-3 rounded-lg">
+              <button
+                type="submit"
+                className="bg-blue-600 text-white py-3 rounded-lg"
+              >
                 {role === "Faculty" ? "Update Password" : "Verify Email"}
               </button>
             </form>
           ) : (
-            <form onSubmit={handleOtpVerification} className="flex flex-col space-y-6">
-            <input
-              type="text"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              required
-              placeholder="Enter OTP"
-              className="w-full bg-transparent text-white pl-4 pr-4 py-3 rounded-lg border border-gray-400 outline-none focus:border-white transition-all"
-            />
-            <button type="submit" className="bg-blue-500 text-white py-2 rounded">Verify OTP</button>
-          </form>
+            <form
+              onSubmit={handleOtpVerification}
+              className="flex flex-col space-y-6"
+            >
+              <input
+                type="text"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                required
+                placeholder="Enter OTP"
+                className="w-full bg-transparent text-white pl-4 pr-4 py-3 rounded-lg border border-gray-400 outline-none focus:border-white transition-all"
+              />
+              <button
+                type="submit"
+                className="bg-blue-500 text-white py-2 rounded"
+              >
+                Verify OTP
+              </button>
+            </form>
           )}
         </div>
       </div>

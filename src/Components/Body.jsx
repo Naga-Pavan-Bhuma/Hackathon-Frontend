@@ -12,16 +12,9 @@ const Body = () => {
 
   return (
     <div>
-      {/* Show NavBar only if NOT on login or signup */}
-      {!hideNavRoutes.includes(location.pathname) && <NavBar />}
-
-      {/* Show Carousel ONLY on the homepage */}
-      {location.pathname === "/" && <Carousel />}
 
       <Outlet />
 
-      {/* Show Footer only if NOT on login or signup */}
-      {!hideNavRoutes.includes(location.pathname) && <Footer />}
     </div>
   );
 };

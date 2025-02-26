@@ -3,6 +3,7 @@ import { Mail, Lock, User, CheckCircle } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import LoginNavBar from "./LoginNavBar";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -18,16 +19,24 @@ const LoginPage = () => {
     try {
       const result =
         role === "student"
-          ? await axios.post(`${API_URL}/student/login`, { email, password }, {
-              withCredentials: true,
-            })
-          : await axios.post(`${API_URL}/faculty/login`, { employeeId, password }, {
-              withCredentials: true,
-            });
-  
+          ? await axios.post(
+              `${API_URL}/student/login`,
+              { email, password },
+              {
+                withCredentials: true,
+              }
+            )
+          : await axios.post(
+              `${API_URL}/faculty/login`,
+              { employeeId, password },
+              {
+                withCredentials: true,
+              }
+            );
+
       alert("Login successful");
-      if(role!="student"){
-        localStorage.setItem("role","faculty");
+      if (role != "student") {
+        localStorage.setItem("role", "faculty");
         navigate("/faculty");
       }
       // Check if the email belongs to an admin
@@ -44,24 +53,23 @@ const LoginPage = () => {
       console.error(err);
     }
   };
-  
 
   return (
     <div
       className="relative min-h-screen bg-cover bg-center"
       style={{ backgroundImage: 'url("hero-bg.jpg")' }}
     >
-      <LoginNavBar/>
+      <LoginNavBar />
       <div className="absolute inset-0 bg-black opacity-50"></div>
 
       <div className="min-h-screen flex flex-col lg:flex-row items-center justify-around relative z-20 p-4 gap-8">
         {/* Responsive Image */}
-        <img
-          src="../../public/solar-wind.png"
-          alt="Solar Wind"
-          className="h-64 w-64 md:h-96 md:w-96 lg:h-[500px] lg:w-[500px] object-contain"
+        <DotLottieReact
+          src="https://lottie.host/f8300ede-4ba2-49c7-8232-b68fd8cddc45/oxLqOeKk2c.lottie"
+          loop
+          autoplay
+          style={{ width: "650px", height: "300px" }} // Adjust size as needed
         />
-
         {/* Login Form */}
         <div className="w-full max-w-sm p-8 rounded-2xl text-center border border-white/50 backdrop-blur-lg shadow-2xl">
           <h2 className="text-3xl font-ovo text-white mb-3">Welcome Back...</h2>
@@ -79,8 +87,12 @@ const LoginPage = () => {
                   onChange={(e) => setRole(e.target.value)}
                   className="w-full bg-black/30 backdrop-blur-lg border border-gray-400 text-white py-3 px-4 rounded-lg outline-none focus:border-blue-400 transition-all appearance-none"
                 >
-                  <option value="student" className="text-black">🎓 Login as Student</option>
-                  <option value="faculty" className="text-black">👨‍🏫 Login as Faculty</option>
+                  <option value="student" className="text-black">
+                    🎓 Login as Student
+                  </option>
+                  <option value="faculty" className="text-black">
+                    👨‍🏫 Login as Faculty
+                  </option>
                 </select>
                 <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
                   ▼

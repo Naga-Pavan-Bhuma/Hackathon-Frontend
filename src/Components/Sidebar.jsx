@@ -12,7 +12,7 @@ const Sidebar = () => {
       {/* Navigation Links */}
       <nav className="flex flex-col gap-4">
         <NavItem to="/student" icon={<Home size={22} />} label="Home" />
-        <NavItem to="discussion" icon={<MessageCircle size={22} />} label="Discussions" />
+        <NavItem to="discussions" icon={<MessageCircle size={22} />} label="Discussions" />
         <NavItem to="clubs" icon={<Users size={22} />} label="Clubs" />
         <NavItem to="career" icon={<Briefcase size={22} />} label="Careers" />
         <NavItem to="events" icon={<Calendar size={22} />} label="Events" />

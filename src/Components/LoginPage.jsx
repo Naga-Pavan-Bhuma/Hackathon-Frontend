@@ -1,22 +1,38 @@
-import React, { useState } from 'react';
-import { Mail, Lock, CheckCircle } from 'lucide-react';
-import LoginNavBar from './LoginNavBar';
+import React, { useState } from "react";
+import { Mail, Lock, CheckCircle } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
+import LoginNavBar from "./LoginNavBar";
+import axios from "axios";
+
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const result = await axios.post(
+        `${API_URL}/login`,
+        { email, password },
+        { withCredentials: true }
+      );
+      alert("login success");
+    } catch (err) {
+      console.error(err);
+    }
     console.log({ email, password, rememberMe });
   };
 
   return (
     <>
       {/* Navbar Positioned at the Top */}
-      <div className="relative min-h-screen bg-cover bg-center" style={{ backgroundImage: 'url("hero-bg.jpg")' }}>
-        
+      <div
+        className="relative min-h-screen bg-cover bg-center"
+        style={{ backgroundImage: 'url("hero-bg.jpg")' }}
+      >
         {/* Navbar Overlay */}
         <div className="absolute top-0 left-0 w-full z-10">
           <LoginNavBar />
@@ -27,24 +43,29 @@ const LoginPage = () => {
 
         {/* Main Content */}
         <div className="min-h-screen flex flex-col lg:flex-row items-center justify-around relative z-20 p-4 gap-8">
-
           {/* Responsive Image */}
-          <img 
-            src="../../public/solar-wind.png" 
-            alt="Solar Wind" 
+          <img
+            src="../../public/solar-wind.png"
+            alt="Solar Wind"
             className="h-64 w-64 md:h-96 md:w-96 lg:h-[500px] lg:w-[500px] object-contain"
           />
 
           {/* Login Form */}
           <div className="w-full max-w-sm p-8 rounded-2xl text-center border border-white/50 backdrop-blur-lg shadow-2xl">
-            <h2 className="text-3xl font-ovo text-white mb-3">Welcome Back...</h2>
-            <p className="pb-3 text-gray-400">Please enter your email and password</p>
+            <h2 className="text-3xl font-ovo text-white mb-3">
+              Welcome Back...
+            </h2>
+            <p className="pb-3 text-gray-400">
+              Please enter your email and password
+            </p>
 
             <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
-              
               {/* Email Input */}
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
+                <Mail
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"
+                  size={20}
+                />
                 <input
                   type="text"
                   value={email}
@@ -57,7 +78,10 @@ const LoginPage = () => {
 
               {/* Password Input */}
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" size={20} />
+                <Lock
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300"
+                  size={20}
+                />
                 <input
                   type="password"
                   value={password}
@@ -81,7 +105,9 @@ const LoginPage = () => {
                     <CheckCircle size={16} /> Remember me
                   </span>
                 </label>
-                <a href="#" className="hover:underline">Forgot password?</a>
+                <a href="#" className="hover:underline">
+                  Forgot password?
+                </a>
               </div>
 
               {/* Login Button */}
@@ -92,10 +118,25 @@ const LoginPage = () => {
                 Log In
               </button>
 
+              {/* Continue with Google Button */}
+              <button
+                type="button"
+                className="flex items-center justify-center gap-3 border border-gray-400 text-white py-3 rounded-lg hover:bg-gray-800 transition-all"
+                onClick={() =>
+                  (window.location.href = `${API_URL}/auth/google`)
+                }
+              >
+                <FcGoogle size={24} />
+                Continue with Google
+              </button>
+
               {/* Register Link */}
-              <div className="text-white  text-sm">
+              <div className="text-white text-sm">
                 <p>
-                  Don't have an account? <a href="#" className="underline hover:text-gray-300">Register</a>
+                  Don't have an account?{" "}
+                  <a href="#" className="underline hover:text-gray-300">
+                    Register
+                  </a>
                 </p>
               </div>
             </form>

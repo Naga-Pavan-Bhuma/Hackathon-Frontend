@@ -1,17 +1,20 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./Components/LoginPage";
 import SignupPage from "./Components/SignupPage";
-import NavBar from "./Components/NavBar"; // Correct import
+import NavBar from "./Components/NavBar";
 import LoginNavBar from "./Components/LoginNavBar";
+import Body from "./Components/Body";
+import Home from "./Components/Home";
 
 function App() {
   return (
-    <Router>
-      <LoginNavBar /> {/* Navbar is outside Routes, so it's persistent */}
+    <Router basename="/">
       <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/" element={<Body />}>
+          <Route path="/" element={<Home />} /> {/* index for default route */}
+          <Route path="login" element={<LoginPage />} />
+          <Route path="signup" element={<SignupPage />} />
+        </Route>
       </Routes>
     </Router>
   );
